@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getFilmByID } from "components/ServicesApi/ServicesApi";
 import Cast from "components/Cast/Cast";
 import Reviews from "components/Reviews/Reviews";
