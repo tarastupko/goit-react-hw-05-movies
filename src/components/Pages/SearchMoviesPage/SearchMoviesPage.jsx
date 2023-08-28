@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { SearchContainer, SearchForm, MovieList, MovieItem } from "./SearchMoviesPageStyle";
 import { searchMovies } from "components/ServicesApi/ServicesApi";
@@ -7,12 +7,31 @@ import { searchMovies } from "components/ServicesApi/ServicesApi";
 const SearchMoviesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-const PlaceholderImage = () => (
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930" 
-    alt="No Poster Available"
-  />
-);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const PlaceholderImage = () => (
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930" 
+      alt="No Poster Available"
+    />
+  );
+
+  // Перевірка при завантаженні сторінки
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const queryParamValue = queryParams.get("query");
+    
+    if (queryParamValue) {
+      setSearchTerm(queryParamValue);
+      performSearch(queryParamValue);
+    }
+  }, [location.search]);
+
+  const performSearch = async (searchValue) => {
+    const results = await searchMovies(searchValue);
+    setSearchResults(results);
+  };
+
   const handleSearch = async (e) => {
     e.preventDefault();
 
@@ -21,8 +40,8 @@ const PlaceholderImage = () => (
       return;
     }
 
-    const results = await searchMovies(searchTerm);
-    setSearchResults(results);
+    performSearch(searchTerm);
+    navigate(`/movies?query=${encodeURIComponent(searchTerm)}`);
   };
 
   return (

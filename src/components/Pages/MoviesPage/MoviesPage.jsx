@@ -11,6 +11,7 @@ import {
   FilmImage,
   FilmDetails,
   ButtonRow,
+  BackButton,
 } from "./MoviesPageStyle";
 import Loader from "components/Loader/loader";
 
@@ -49,7 +50,9 @@ const MoviesPage = () => {
   }
 
   return (
+    
     <FilmContainer>
+<BackButton onClick={() => navigate(-1)}>Back</BackButton>
       <FilmTitle>{film.title}</FilmTitle>
       <FilmInfo>
         <FilmImage

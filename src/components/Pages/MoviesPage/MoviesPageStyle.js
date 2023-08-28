@@ -60,3 +60,8 @@ export const ButtonRow = styled.div`
   gap: 20px;
   margin-top: 20px;
 `;
+
+export const BackButton = styled(ButtonLink)`
+  position: absolute;
+  left: 20px;
+`;
